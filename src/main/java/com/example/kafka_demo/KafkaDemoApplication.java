@@ -1,41 +1,23 @@
 package com.example.kafka_demo;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import org.springframework.kafka.annotation.KafkaListener;
 
 @SpringBootApplication
-@Controller
-@RequestMapping("kafka")
 public class KafkaDemoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KafkaDemoApplication.class, args);
 	}
 
-	@PostConstruct
-	public String testKafka() {
-		String topic = "my-topic";
-		String bootstrapServers = "127.0.0.1:9092";
+	@KafkaListener(topics = "my-topic", groupId = "group1")
+	public void listenGroupFoo(String message) {
+		System.out.println("Consumer1: Received Message in group foo" + message);
+	}
 
-		ExecutorService executor = Executors.newSingleThreadExecutor();
-		MessageConsumerWorker worker = new MessageConsumerWorker(topic, KafkaConsumerConfig.defaultProps(bootstrapServers, "my-topic-consumer"), msg -> {
-			// Custom processing
-			System.out.println("Reciver: " + msg);
-		}, 1000);
-		executor.submit(worker);
-
-		// shutdown hook
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			worker.shutdown();
-			executor.shutdown();
-		}));
-		return "x";
+	@KafkaListener(topics = "my-topic", groupId = "group1")
+	public void listenGroupFoox1(String message) {
+		System.out.println("Consumer2: Received Message in group foo: " + message);
 	}
 }
