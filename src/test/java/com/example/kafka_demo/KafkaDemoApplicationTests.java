@@ -8,6 +8,7 @@ class KafkaDemoApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("producer");
 	}
 
 }
