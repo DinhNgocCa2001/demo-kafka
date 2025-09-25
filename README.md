@@ -1,2 +1,2 @@
 # demo-kafka
-thực hành thao tác với kafka
+thực hành thao tác với kafka producer
