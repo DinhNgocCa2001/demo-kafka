@@ -43,4 +43,13 @@ public class KafkaConsumerConfig {
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> filterKafkaListenerContainerFactory() {
+
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setRecordFilterStrategy(message -> !message.value().contains("88"));
+        return factory;
+    }
 }

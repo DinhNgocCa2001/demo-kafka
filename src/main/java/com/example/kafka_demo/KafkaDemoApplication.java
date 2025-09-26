@@ -13,12 +13,12 @@ public class KafkaDemoApplication {
 		SpringApplication.run(KafkaDemoApplication.class, args);
 	}
 
-	@KafkaListener(topics = "my-topic", groupId = "group1")
+	@KafkaListener(topics = "my-topic", groupId = "group1", containerFactory = "filterKafkaListenerContainerFactory")
 	public void listenGroupFoo(String message) {
 		log.info("Consumer1: Received Message in group foo" + message);
 	}
 
-	@KafkaListener(topics = "my-topic", groupId = "group1")
+	@KafkaListener(topics = "my-topic", groupId = "group2", containerFactory = "filterKafkaListenerContainerFactory")
 	public void listenGroupFoox1(String message) {
 		log.info("Consumer2: Received Message in group foo: " + message);
 	}
